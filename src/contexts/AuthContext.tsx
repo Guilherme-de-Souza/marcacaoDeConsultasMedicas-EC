@@ -1,7 +1,7 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authService } from '../services/auth';
-import { AuthContextData, LoginCredentials, RegisterData, User } from '../types/auth';
+import { User, LoginCredentials, RegisterData, AuthContextData } from '../types/auth';
 
 // Chaves de armazenamento
 const STORAGE_KEYS = {

@@ -1,16 +1,16 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
+import styled from 'styled-components/native';
 import { ScrollView, ViewStyle } from 'react-native';
 import { Button, Input } from 'react-native-elements';
-import styled from 'styled-components/native';
-import DoctorList from '../components/DoctorList';
-import Header from '../components/Header';
-import TimeSlotList from '../components/TimeSlotList';
 import { useAuth } from '../contexts/AuthContext';
-import theme from '../styles/theme';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
+import theme from '../styles/theme';
+import Header from '../components/Header';
+import DoctorList from '../components/DoctorList';
+import TimeSlotList from '../components/TimeSlotList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type CreateAppointmentScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'CreateAppointment'>;
@@ -19,6 +19,7 @@ type CreateAppointmentScreenProps = {
 interface Appointment {
   id: string;
   patientId: string;
+  patientName: string;
   doctorId: string;
   doctorName: string;
   date: string;
@@ -95,6 +96,7 @@ const CreateAppointmentScreen: React.FC = () => {
       const newAppointment: Appointment = {
         id: Date.now().toString(),
         patientId: user?.id || '',
+        patientName: user?.name || '',
         doctorId: selectedDoctor.id,
         doctorName: selectedDoctor.name,
         date,

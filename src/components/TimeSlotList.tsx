@@ -1,6 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, ViewStyle } from 'react-native';
 import styled from 'styled-components/native';
+import { ViewStyle, TouchableOpacity } from 'react-native';
 import theme from '../styles/theme';
 
 interface TimeSlotListProps {
@@ -58,7 +58,7 @@ const TimeGrid = styled.View`
   gap: 6px;
 `;
 
-const TimeCard = styled(TouchableOpacity) <StyledProps>`
+const TimeCard = styled(TouchableOpacity)<StyledProps>`
   width: 23%;
   padding: 8px;
   border-radius: 6px;
