@@ -326,4 +326,4 @@ const TabText = styled.Text<{ active: boolean }>`
   font-size: 16px;
 `;
 
-export default AdminDashboardScreen;
+export default AdminDashboardScreen; 

@@ -396,4 +396,4 @@ const SpecialtyText = styled(Text)<{ selected: boolean }>`
   text-align: center;
 `;
 
-export default AppointmentForm;
+export default AppointmentForm; 

@@ -117,7 +117,7 @@ export const authApiService = {
       }
     }
   },
-  
+
   /**
    * Dados mockados de médicos para quando a API não está disponível
    */

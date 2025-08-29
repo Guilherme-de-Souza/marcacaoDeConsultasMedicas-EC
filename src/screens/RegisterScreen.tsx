@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { Input, Button, Text } from 'react-native-elements';
-import { useAuth } from '../contexts/AuthContext.tsx';
+import { useAuth } from '../contexts/AuthContext';
 import theme from '../styles/theme';
 import { ViewStyle } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -73,7 +73,7 @@ const RegisterScreen: React.FC = () => {
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={true}
+        secureTextEntry
         containerStyle={styles.input}
       />
 
@@ -98,7 +98,7 @@ const RegisterScreen: React.FC = () => {
         </UserTypeButton>
       </UserTypeContainer>
 
- {error ? <ErrorText>{error}</ErrorText> : null}
+      {error ? <ErrorText>{error}</ErrorText> : null}
 
       <Button
         title="Cadastrar"
@@ -191,4 +191,4 @@ const UserTypeText = styled.Text<{ selected: boolean }>`
   font-size: 14px;
 `;
 
-export default RegisterScreen;
+export default RegisterScreen; 

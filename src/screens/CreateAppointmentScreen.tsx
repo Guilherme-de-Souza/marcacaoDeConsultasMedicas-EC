@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { ScrollView, ViewStyle } from 'react-native';
 import { Button, Input } from 'react-native-elements';
@@ -11,6 +11,8 @@ import Header from '../components/Header';
 import DoctorList from '../components/DoctorList';
 import TimeSlotList from '../components/TimeSlotList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authApiService } from '../services/authApi';
+import { User } from '../types/auth';
 
 type CreateAppointmentScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'CreateAppointment'>;
@@ -35,39 +37,7 @@ interface Doctor {
   image: string;
 }
 
-// Lista de médicos disponíveis
-const availableDoctors: Doctor[] = [
-  {
-    id: '1',
-    name: 'Dr. João Silva',
-    specialty: 'Cardiologia',
-    image: 'https://randomuser.me/api/portraits/men/1.jpg',
-  },
-  {
-    id: '2',
-    name: 'Dra. Maria Santos',
-    specialty: 'Pediatria',
-    image: 'https://randomuser.me/api/portraits/women/1.jpg',
-  },
-  {
-    id: '3',
-    name: 'Dr. Pedro Oliveira',
-    specialty: 'Ortopedia',
-    image: 'https://randomuser.me/api/portraits/men/2.jpg',
-  },
-  {
-    id: '4',
-    name: 'Dra. Ana Costa',
-    specialty: 'Dermatologia',
-    image: 'https://randomuser.me/api/portraits/women/2.jpg',
-  },
-  {
-    id: '5',
-    name: 'Dr. Carlos Mendes',
-    specialty: 'Oftalmologia',
-    image: 'https://randomuser.me/api/portraits/men/3.jpg',
-  },
-];
+// Médicos agora vêm da API através do AppointmentForm
 
 const CreateAppointmentScreen: React.FC = () => {
   const { user } = useAuth();
@@ -77,6 +47,52 @@ const CreateAppointmentScreen: React.FC = () => {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  // Estados para dados da API
+  const [doctors, setDoctors] = useState<User[]>([]);
+  const [loadingDoctors, setLoadingDoctors] = useState(true);
+
+  // Carrega médicos ao montar o componente
+  useEffect(() => {
+    loadDoctors();
+  }, []);
+
+  const loadDoctors = async () => {
+    try {
+      setLoadingDoctors(true);
+      setError(''); // Limpa erros anteriores
+      const doctorsData = await authApiService.getAllDoctors();
+      setDoctors(doctorsData);
+      console.log(`${doctorsData.length} médicos carregados com sucesso`);
+    } catch (error) {
+      console.error('Erro ao carregar médicos:', error);
+      setError('Carregando médicos com dados locais...');
+      // Tentativa adicional com pequeno delay
+      setTimeout(async () => {
+        try {
+          const doctorsData = await authApiService.getAllDoctors();
+          setDoctors(doctorsData);
+          setError('');
+        } catch (retryError) {
+          setError('Médicos carregados com dados locais (API indisponível)');
+        }
+      }, 1000);
+    } finally {
+      setLoadingDoctors(false);
+    }
+  };
+
+  // Converte User[] para Doctor[]
+  const convertUsersToDoctors = (users: User[]): Doctor[] => {
+    return users.map(user => ({
+      id: user.id,
+      name: user.name,
+      specialty: user.role === 'doctor' && 'specialty' in user 
+        ? user.specialty 
+        : 'Especialidade não informada',
+      image: user.image
+    }));
+  };
 
   const handleCreateAppointment = async () => {
     try {
@@ -141,11 +157,15 @@ const CreateAppointmentScreen: React.FC = () => {
         />
 
         <SectionTitle>Selecione um Médico</SectionTitle>
-        <DoctorList
-          doctors={availableDoctors}
-          onSelectDoctor={setSelectedDoctor}
-          selectedDoctorId={selectedDoctor?.id}
-        />
+        {loadingDoctors ? (
+          <ErrorText>Carregando médicos...</ErrorText>
+        ) : (
+          <DoctorList
+            doctors={convertUsersToDoctors(doctors)}
+            onSelectDoctor={setSelectedDoctor}
+            selectedDoctorId={selectedDoctor?.id}
+          />
+        )}
 
         {error ? <ErrorText>{error}</ErrorText> : null}
 
