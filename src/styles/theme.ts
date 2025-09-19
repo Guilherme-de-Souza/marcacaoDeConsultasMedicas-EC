@@ -9,6 +9,7 @@ export default {
       warning: '#FFC107',
       white: '#FFFFFF',
       border: '#DEE2E6',
+      info: '#FFFF'
    },
    typography: {
       title: {
