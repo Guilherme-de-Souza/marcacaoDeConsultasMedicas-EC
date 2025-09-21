@@ -13,6 +13,10 @@
  * @property status - Status atual da consulta (agendada, realizada, cancelada)
  */
 export type Appointment = {
+  patientId: string | undefined;
+  patientName: ReactNode;
+  doctorName: ReactNode;
+  specialty: ReactNode;
   id: string;
   doctorId: string;
   date: string;

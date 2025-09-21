@@ -11,7 +11,7 @@ import { authApiService } from '../../services/authApi';
 import { User } from '../../types/auth';
 import { Container, ErrorText, SectionTitle, styles, Title } from './styles';
 import { Doctor } from './interfaces/doctor';
-import { Appointment } from './interfaces/appoiment';
+import { Appointment } from './interfaces/appointment';
 import { CreateAppointmentScreenProps } from './type';
 
 
