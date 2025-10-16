@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Input, Button, Text } from 'react-native-elements';
 import { useAuth } from '../../contexts/AuthContext';
-import { ViewStyle } from 'react-native';
+import { ViewStyle, Image ,StyleSheet, View} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LoginScreenProps } from './type';
 import { Container, Title, styles, ErrorText } from './styles';
+import { ToastAndroid } from 'react-native';
 
-
+const showToast = () => {
+      ToastAndroid.show('A wild toast appeared!', ToastAndroid.SHORT);
+    };
 
 const LoginScreen: React.FC = () => {
   const { signIn } = useAuth();
@@ -29,10 +32,16 @@ const LoginScreen: React.FC = () => {
   };
 
 
-
   return (
     <Container>
-      <Title>App Marcação de Consultas</Title>
+      <Image source={require('./images/Logo.png')} style={{ width: 100, height: 100 }}/>
+      
+
+      <Title>VitaAgenda</Title>
+       
+
+
+
       
       <Input
         placeholder="Email"

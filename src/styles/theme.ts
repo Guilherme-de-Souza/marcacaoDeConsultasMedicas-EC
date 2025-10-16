@@ -1,11 +1,11 @@
 export default {
    colors: {
-      primary: '#4A90E2',
-      secondary: '#6C757D',
-      background: '#F8F9FA',
-      text: '#212529',
-      error: '#DC3545',
-      success: '#28A745',
+      primary: '#2ECC71',//4A90E2
+      secondary: '#4A90E2',//2ECC71
+      background: '#0D0D0D',
+      text: '#F5F5F7',
+      error: '#E74C3C',
+      success: '#ABEBC6',
       warning: '#FFC107',
       white: '#FFFFFF',
       border: '#DEE2E6',
